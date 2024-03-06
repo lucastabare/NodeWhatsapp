@@ -261,7 +261,7 @@
 // };
 
 const express = require('express');
-const whatsappRoutes = require('./src/routes/whatsappRoutes'); // Actualiza la ruta según tu estructura de directorios
+const whatsappRoutes = require('./src/Routes/WhatsappRoutes'); // Actualiza la ruta según tu estructura de directorios
 
 const app = express();
 
