@@ -1,20 +1,19 @@
-const { Client } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal');
+const { Client, LocalAuth } = require('whatsapp-web.js');
+const { ObtenerSessionWhatsapp } = require('../Services/SessionService');
 
-const initializeWhatsAppClient = () => {
-    const whatsappClient = new Client();
+const IniciarWahtsapp = async (idTelefono) => {
+    const sessionData = await ObtenerSessionWhatsapp(idTelefono); 
 
-    whatsappClient.on('qr', (qr) => {
-        qrcode.generate(qr, { small: true });
+    const client = new Client({
+        authStrategy: new LocalAuth({
+            clientId: idTelefono,
+            session: sessionData ? JSON.parse(sessionData) : undefined, 
+        }),
+        puppeteer: { headless: true },
     });
 
-    whatsappClient.on('ready', () => {
-        console.log('Cliente de WhatsApp listo');
-    });
-
-    whatsappClient.initialize();
-
-    return whatsappClient;
+    await client.initialize();
+    return client;
 };
 
-module.exports = { initializeWhatsAppClient };
+module.exports = { IniciarWahtsapp };

@@ -1,7 +1,7 @@
 const { Request, TYPES } = require('tedious');
 const { getConnection } = require('../Config/database');
 
-const fetchMessages = async (idTelefono) => {
+const ObtenerMensajes = async (idTelefono) => {
     const connection = getConnection();
     const messages = [];
 
@@ -41,6 +41,14 @@ const fetchMessages = async (idTelefono) => {
     });
 };
 
-// Otras funciones como actualizar el estado del mensaje en la base de datos podrían ir aquí
+const ActualizarMensajes = async (id, status) => {
+    try {
+        const query = 'UPDATE mensaje SET IdEstado = 4, FechaEnviado = GETDATE() WHERE id = @id';
+        await db.query(query, [status, id]);
+        console.log(`Estado actualizado para el mensaje ${idTelefono}`);
+    } catch (error) {
+        console.error('SQL error in UPDATE', error);
+    }
+};
 
-module.exports = { fetchMessages };
+module.exports = { ObtenerMensajes, ActualizarMensajes };

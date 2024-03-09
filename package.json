@@ -19,6 +19,7 @@
     "mssql": "^10.0.2",
     "mysql": "^2.18.1",
     "ora": "^8.0.1",
+    "qrcode": "^1.5.3",
     "qrcode-terminal": "^0.12.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",

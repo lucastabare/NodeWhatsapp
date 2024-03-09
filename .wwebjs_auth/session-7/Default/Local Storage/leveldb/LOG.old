@@ -1,0 +1,6 @@
+2024/03/08-20:50:00.968 7380 Reusing MANIFEST C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\.wwebjs_auth\session-7\Default\Local Storage\leveldb/MANIFEST-000001
+2024/03/08-20:50:00.969 7380 Recovering log #4
+2024/03/08-20:50:00.969 7380 Reusing old log C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\.wwebjs_auth\session-7\Default\Local Storage\leveldb/000004.log 
+2024/03/08-20:52:01.343 be60 Level-0 table #8: started
+2024/03/08-20:52:01.351 be60 Level-0 table #8: 14338 bytes OK
+2024/03/08-20:52:01.352 be60 Delete type=0 #4
