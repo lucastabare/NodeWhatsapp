@@ -1,4 +1,5 @@
 /.env
 /.wwebjs_cache
 /text.txt
+/Sesiones
 node_modules

@@ -42,13 +42,39 @@ const ObtenerMensajes = async (idTelefono) => {
 };
 
 const ActualizarMensajes = async (id, status) => {
-    try {
-        const query = 'UPDATE mensaje SET IdEstado = 4, FechaEnviado = GETDATE() WHERE id = @id';
-        await db.query(query, [status, id]);
-        console.log(`Estado actualizado para el mensaje ${idTelefono}`);
-    } catch (error) {
-        console.error('SQL error in UPDATE', error);
-    }
+    const connection = getConnection();
+
+    return new Promise((resolve, reject) => {
+        connection.on('connect', err => {
+            if (err) {
+                console.error('Error connecting for UPDATE:', err.message);
+                return reject(err);
+            }
+
+            const request = new Request(
+                'UPDATE mensaje SET IdEstado = @status, FechaEnviado = GETDATE() WHERE id = @id',
+                err => {
+                    if (err) {
+                        console.error('SQL error in UPDATE:', err);
+                        return reject(err);
+                    }
+                }
+            );
+
+            request.addParameter('status', TYPES.Int, status);
+            request.addParameter('id', TYPES.Int, id);
+
+            request.on('requestCompleted', () => {
+                connection.close();
+                console.log(`Estado actualizado para el mensaje ${id}`);
+                resolve();
+            });
+
+            connection.execSql(request);
+        });
+
+        connection.connect();
+    });
 };
 
 module.exports = { ObtenerMensajes, ActualizarMensajes };

@@ -1,19 +1,17 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const { ObtenerSessionWhatsapp } = require('../Services/SessionService');
 
-const IniciarWahtsapp = async (idTelefono) => {
-    const sessionData = await ObtenerSessionWhatsapp(idTelefono); 
+const IniciarWhatsApp = async (idTelefono) => {
+  const client = new Client({
+    authStrategy: new LocalAuth({
+      clientId: idTelefono,
+      dataPath: "../Sessions"
+    }),
+    puppeteer: { headless: true },
+  });
 
-    const client = new Client({
-        authStrategy: new LocalAuth({
-            clientId: idTelefono,
-            session: sessionData ? JSON.parse(sessionData) : undefined, 
-        }),
-        puppeteer: { headless: true },
-    });
+  await client.initialize();
 
-    await client.initialize();
-    return client;
+  return client;
 };
 
-module.exports = { IniciarWahtsapp };
+module.exports = { IniciarWhatsApp };

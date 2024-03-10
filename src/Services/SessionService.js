@@ -1,78 +1,25 @@
-const { Request, TYPES } = require('tedious');
-const { getConnection } = require('../Config/database')
+const fs = require('fs');
+const path = require('path');
 
-const ActualizarSessionWhatsapp = (idTelefono, sessionData) => {
-    return new Promise((resolve, reject) => {
-        const connection = getConnection();
-        const sessionString = JSON.stringify(sessionData); // Convierte los datos de la sesión a un string JSON
+const ObtenerSesionWhatsapp = (idTelefono) => {
+    const sessionDir = path.join(__dirname, '../Sesiones', `session-cliente-${idTelefono}`);
 
-        connection.on('connect', err => {
-            if (err) {
-                reject('Error al conectar a la base de datos: ' + err);
-            } else {
-                const query = 'UPDATE Telefono SET Sesion = @session WHERE id = @idTelefono';
-                const request = new Request(query, (err) => {
-                    if (err) {
-                        reject('Error al ejecutar la consulta: ' + err);
-                    } else {
-                        resolve();
-                    }
-                });
-
-                request.addParameter('session', TYPES.NVarChar, sessionString);
-                request.addParameter('idTelefono', TYPES.NVarChar, idTelefono);
-
-                connection.execSql(request);
-            }
-        });
-
-        connection.connect();
-    });
+    return fs.existsSync(sessionDir);
 };
 
-const ObtenerSessionWhatsapp = (idTelefono) => {
-    return new Promise((resolve, reject) => {
-        const connection = getConnection();
+const ActualizarSesionWhatsApp = (idTelefono) => {
+    console.log("soy la session en el actualizar =>")
+    const sessionDir = path.join(__dirname, '../Sesiones', `session-cliente-${idTelefono}`);
+    const sessionFile = path.join(sessionDir, 'session.json'); // Nombre de archivo para los datos de sesión
 
-        connection.on('connect', err => {
-            if (err) {
-                reject('Error al conectar a la base de datos: ' + err);
-            } else {
-                const query = 'SELECT Sesion FROM Telefono WHERE id = @idTelefono';
-                const request = new Request(query, (err) => {
-                    if (err) {
-                        reject('Error al ejecutar la consulta: ' + err);
-                    }
-                });
+    // Asegurarse de que el directorio de sesión existe
+    if (!fs.existsSync(sessionDir)) {
+        fs.mkdirSync(sessionDir, { recursive: true });
+    }
 
-                let result = "";
-
-                request.on('row', columns => {
-                    columns.forEach(column => {
-                        if (column.metadata.colName === "Sesion") {
-                            result = column.value;
-                        }
-                    });
-                });
-
-                request.on('requestCompleted', () => {
-                    if (result) {
-                        // Asegúrate de que los datos estén en el formato correcto antes de resolver
-                        const sessionData = JSON.parse(result);
-                        // Aquí puedes realizar validaciones o transformaciones adicionales si es necesario
-                        resolve(sessionData);
-                    } else {
-                        resolve(null);
-                    }
-                });
-
-                request.addParameter('idTelefono', TYPES.NVarChar, idTelefono);
-                connection.execSql(request);
-            }
-        });
-
-        connection.connect();
-    });
+    // Escribir los datos de sesión en el archivo
+    //fs.writeFile(sessionFile);
 };
 
-module.exports = { ActualizarSessionWhatsapp, ObtenerSessionWhatsapp };
+
+module.exports = { ObtenerSesionWhatsapp, ActualizarSesionWhatsApp };

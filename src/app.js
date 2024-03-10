@@ -1,11 +1,10 @@
 const express = require('express');
-require('dotenv').config();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./Config/Swagger');
 const whatsappRoutes = require('./Routes/WhatsappRoutes');
-
 const app = express();
 const port = 3000;
+require('dotenv').config();
 
 // Middleware para analizar JSON entrante
 app.use(express.json());
@@ -19,5 +18,6 @@ app.use('/api/whatsapp', whatsappRoutes);
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
-  console.log(process.env.DB_SERVER);
+  console.log('DB_SERVER:', process.env.DB_SERVER);
+console.log('DB_USER:', process.env.DB_USER);
 });

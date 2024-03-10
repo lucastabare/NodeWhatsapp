@@ -2,18 +2,24 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode');
 const sessionService = require('../Services/SessionService');
 const qrconsole = require('qrcode-terminal')
+const path = require('path');
 
 const generarQR = async (req, res) => {
-    const idTelefono = req.params.idTelefono;
-    const sessionState = await sessionService.ObtenerSessionWhatsapp(idTelefono);
+    const dataPath = path.resolve(__dirname, '../Sesiones');
 
-    if (sessionState && sessionState.isConnected) {
-        return res.status(200).send('La sesión ya está activa. No es necesario escanear el QR nuevamente.');
+    const idTelefono = req.params.idTelefono;
+
+    if (sessionService.ObtenerSesionWhatsapp(idTelefono)) {
+        return res.status(200)
+            .send('La sesión ya está activa. No es necesario escanear el QR nuevamente.');
     }
 
     const client = new Client({
-        authStrategy: new LocalAuth({ clientId: idTelefono }),
-        puppeteer: { headless: true },
+        authStrategy: new LocalAuth({
+            clientId: `cliente-${idTelefono}`,
+            dataPath: dataPath,
+            webVersion: '2.2306.7',
+        }),
     });
 
     let responseSent = false;
@@ -30,9 +36,8 @@ const generarQR = async (req, res) => {
                     }
                 } else {
                     if (!responseSent) {
-                        res.send(`<img src="${url}" alt="Código QR">`);
+                        res.send(`< img src = "${url}" alt = "Código QR" > `);
                         responseSent = true;
-                        await sessionService.ActualizarSessionWhatsapp(idTelefono, { isConnected: false });
                     }
                 }
             });
@@ -42,24 +47,24 @@ const generarQR = async (req, res) => {
     client.on('ready', async () => {
         console.log('Cliente de WhatsApp listo y conectado');
         if (!responseSent) {
-            res.status(200).send('El código QR fue escaneado con éxito, la sesión está ahora activa.');
+            res.status(200)
+                .send('El código QR fue escaneado con éxito, la sesión está ahora activa.');
             responseSent = true;
         }
-        await sessionService.ActualizarSessionWhatsapp(idTelefono, { isConnected: true });
     });
 
     client.on('authenticated', (session) => {
-
-        console.log("soy la session ==>>".session)
-
-        sessionService.ActualizarSessionWhatsapp(idTelefono, session)
-            .then(() => console.log('Sesión almacenada con éxito'))
-            .catch(console.error);
+        console.log("LOGEADO CON EXITO ==>", session)
+        //sessionService.ActualizarSesionWhatsApp(idTelefono, session);
+        // fs.writeFile(dataPath, JSON.stringify(session), (err) => {
+        //     if (err) {
+        //         console.error(err);
+        //     }
+        // });
     });
 
     client.on('disconnected', async (reason) => {
         console.log('Cliente desconectado', reason);
-        await sessionService.ActualizarSessionWhatsapp(idTelefono, { isConnected: false });
     });
 
     client.initialize().catch(err => {
