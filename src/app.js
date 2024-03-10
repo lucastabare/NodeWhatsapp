@@ -17,7 +17,5 @@ app.use('/api/whatsapp', whatsappRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-  console.log('DB_SERVER:', process.env.DB_SERVER);
-console.log('DB_USER:', process.env.DB_USER);
+  console.log(`Servidor Listo ===> corriendo en http://localhost:${port}`);
 });

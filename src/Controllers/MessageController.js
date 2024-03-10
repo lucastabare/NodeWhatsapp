@@ -90,7 +90,6 @@ const enviarMensajes = async (req, res) => {
     const idTelefono = req.params.idTelefono;
 
     const sessionState = ObtenerSesionWhatsapp(idTelefono);
-    console.log("soy la session =>", sessionState);
 
     if (!sessionState) {
         return res.status(400).send('El teléfono no está conectado');

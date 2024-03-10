@@ -8,7 +8,6 @@ const ObtenerSesionWhatsapp = (idTelefono) => {
 };
 
 const ActualizarSesionWhatsApp = (idTelefono) => {
-    console.log("soy la session en el actualizar =>")
     const sessionDir = path.join(__dirname, '../Sesiones', `session-cliente-${idTelefono}`);
     const sessionFile = path.join(sessionDir, 'session.json'); // Nombre de archivo para los datos de sesión
 
@@ -17,9 +16,6 @@ const ActualizarSesionWhatsApp = (idTelefono) => {
         fs.mkdirSync(sessionDir, { recursive: true });
     }
 
-    // Escribir los datos de sesión en el archivo
-    //fs.writeFile(sessionFile);
 };
-
 
 module.exports = { ObtenerSesionWhatsapp, ActualizarSesionWhatsApp };
