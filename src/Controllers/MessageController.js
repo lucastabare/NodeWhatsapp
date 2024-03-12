@@ -77,6 +77,8 @@ const path = require('path');
 
 //METODO PARA ENVIAR MENSAJES CON BACKGROUN JOBS, ENCOLA MENSAJES
 const enviarMensajes = async (req, res) => {
+    console.log("Soy el metodo holaa .....")
+
     const idTelefono = req.params.idTelefono;
     const sessionState = ObtenerSesionWhatsapp(idTelefono);
 
@@ -101,6 +103,8 @@ const enviarMensajes = async (req, res) => {
             }
         }
 
+        console.log("Antes de los lotes")
+
         await enviarPrimerLote(lotes.shift(), idTelefono);
 
         // Programa los lotes futuros
@@ -118,14 +122,63 @@ const enviarMensajes = async (req, res) => {
     }
 };
 
+// const enviarPrimerLote = async (lote, idTelefono) => {
+//     console.log("Primer lote");
+//     const dataPath = path.resolve(__dirname, '../Sesiones');
+//     let whatsappClient;
+
+//     try {
+//         // Asegúrate de que whatsappClient es una instancia del cliente de WhatsApp que ya ha sido inicializada.
+//         whatsappClient = await IniciarWhatsApp(idTelefono, dataPath); // Esta función debe devolver una instancia del cliente ya listo.
+
+//         console.log("Soy la sesión de whatsapp ==> ", whatsappClient);
+
+//         for (let message of lote) {
+//             const { numero, texto } = message;
+//             let numeroLimpio = numero.replace(/[^\d]/g, "");
+//             if (!numeroLimpio.startsWith("549")) {
+//                 numeroLimpio = "549" + numeroLimpio;
+//             }
+//             const numeroFormateado = `${numeroLimpio}@c.us`;
+
+//             try {
+//                 await whatsappClient.sendMessage(numeroFormateado, texto);
+//                 console.log(`Mensaje enviado a ${numero}`);
+//                 // Actualizar estado del mensaje a enviado
+//                 await ActualizarMensajes(message.id, 4);
+//             } catch (err) {
+//                 console.error(`Error al enviar mensaje a ${numero}: ${err}`);
+//             }
+
+//             // Espera antes de enviar el siguiente mensaje para evitar ser bloqueado por WhatsApp
+//             await new Promise(resolve => setTimeout(resolve, 15000));
+//         }
+//     } catch (error) {
+//         console.error('Error al iniciar cliente de WhatsApp:', error);
+//     } finally {
+//         if (whatsappClient) {
+//             whatsappClient.destroy(); // Considera si realmente necesitas destruir el cliente aquí.
+//         }
+//     }
+// };
+
 const enviarPrimerLote = async (lote, idTelefono) => {
+    console.log("Enviando primer lote...");
     const dataPath = path.resolve(__dirname, '../Sesiones');
-    let whatsappClient;
 
-    try {
-        whatsappClient = await IniciarWhatsApp(idTelefono, dataPath);
+    const whatsappClient = new Client({
+        authStrategy: new LocalAuth({
+            clientId: `cliente-${idTelefono}`,
+            dataPath: dataPath,
+        }),
+        puppeteer: { headless: true },
+    });
 
-        for (let message of lote) {
+    // Espera hasta que el cliente esté listo antes de proceder
+    whatsappClient.once('ready', async () => {
+        console.log('Cliente de WhatsApp listo y conectado.');
+
+        for (const message of lote) {
             const { numero, texto } = message;
             let numeroLimpio = numero.replace(/[^\d]/g, "");
             if (!numeroLimpio.startsWith("549")) {
@@ -137,20 +190,33 @@ const enviarPrimerLote = async (lote, idTelefono) => {
                 await whatsappClient.sendMessage(numeroFormateado, texto);
                 console.log(`Mensaje enviado a ${numero}`);
                 // Actualizar estado del mensaje a enviado
-                await ActualizarMensajes(message.id, 4);
+                await ActualizarMensajes(message.id, 4);  // Asegúrate de implementar esta función según tus necesidades
             } catch (err) {
                 console.error(`Error al enviar mensaje a ${numero}: ${err}`);
             }
 
+            // Espera antes de enviar el siguiente mensaje para evitar ser bloqueado por WhatsApp
             await new Promise(resolve => setTimeout(resolve, 15000));
         }
 
-    } catch (error) {
-        console.error('Error al iniciar cliente de WhatsApp:', error);
-    } finally {
-        if (whatsappClient) {
-            whatsappClient.destroy();
-        }
+        // Una vez todos los mensajes han sido enviados, destruye el cliente
+        whatsappClient.destroy();
+    });
+
+    whatsappClient.on('qr', qr => {
+        // Opcional: Manejo del QR
+        console.log('Código QR recibido', qr);
+    });
+
+    whatsappClient.on('disconnected', (reason) => {
+        console.log('Cliente desconectado:', reason);
+        whatsappClient.destroy();
+    });
+
+    try {
+        await whatsappClient.initialize();
+    } catch (err) {
+        console.error('Error al inicializar la sesión de WhatsApp:', err);
     }
 };
 

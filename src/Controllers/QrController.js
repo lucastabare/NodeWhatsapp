@@ -17,8 +17,7 @@ const generarQR = async (req, res) => {
     const client = new Client({
         authStrategy: new LocalAuth({
             clientId: `cliente-${idTelefono}`,
-            dataPath: dataPath,
-            webVersion: '2.2306.7',
+            dataPath: dataPath
         }),
     });
 
@@ -50,6 +49,7 @@ const generarQR = async (req, res) => {
             res.status(200)
                 .send('El código QR fue escaneado con éxito, la sesión está ahora activa.');
             responseSent = true;
+            client.destroy();
         }
     });
 
@@ -74,6 +74,11 @@ const generarQR = async (req, res) => {
             responseSent = true;
         }
     });
+
+    // if (client) {
+    //     client.destroy();
+    // }
+
 };
 
 module.exports = {
