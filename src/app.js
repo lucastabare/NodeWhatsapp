@@ -1,10 +1,17 @@
 const express = require('express');
+require('dotenv').config();
+const { ExpressAdapter } = require('@bull-board/express');
+const { createBullBoard } = require('@bull-board/api');
+const { BullMQAdapter } = require('@bull-board/api/bullMQAdapter');
+const serverAdapter = new ExpressAdapter();
+const { Queue } = require('bullmq');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./Config/Swagger');
 const whatsappRoutes = require('./Routes/WhatsappRoutes');
+
 const app = express();
 const port = 3000;
-require('dotenv').config();
+const queueMQ = new Queue('EnviarMensajesProgramadosQueue');
 
 // Middleware para analizar JSON entrante
 app.use(express.json());
@@ -14,6 +21,12 @@ app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Utilizar tus rutas de WhatsApp con el prefijo '/api/whatsapp'
 app.use('/api/whatsapp', whatsappRoutes);
+
+// Bull Ui
+createBullBoard({ queues: [new BullMQAdapter(queueMQ)], serverAdapter });
+serverAdapter.setBasePath('/admin/queues');
+app.use('/admin/queues', serverAdapter.getRouter());
+
 
 // Iniciar el servidor
 app.listen(port, () => {

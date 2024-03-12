@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const messageController = require('../Controllers/MessageController'); // Verifica la ruta al controlador de mensajes
-const qrController = require('../Controllers/QrController'); // Verifica la ruta al controlador de QR
-const sesionController = require('../Controllers/SessionContoller')
+const messageController = require('../Controllers/MessageController');
+const qrController = require('../Controllers/QrController');
+const sesionController = require('../Controllers/SessionContoller');
 
 //API PARA GENERAR QR 
 /**
@@ -23,7 +23,6 @@ const sesionController = require('../Controllers/SessionContoller')
 
 router.get('/GenerarQR/:idTelefono', qrController.generarQR);
 
-//API PARA ENVIAR MENSAJES
 /**
  * @swagger
  * /api/whatsapp/EnviarMensajes/{idTelefono}:
@@ -79,6 +78,5 @@ router.delete('/EliminarSesion/:idTelefono', sesionController.eliminarSession);
  */
 
 router.delete('/EliminarSessiones/', sesionController.eliminarSessiones);
-
 
 module.exports = router;
