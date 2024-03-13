@@ -3,7 +3,7 @@ const { Connection } = require('tedious');
 // Función para crear una nueva conexión
 function getConnection() {
     const config = {
-        server: process.env.DB_SERVER,  // Asegúrate de que esto es una cadena
+        server: process.env.DB_SERVER,  
         authentication: {
             type: 'default',
             options: {
@@ -13,9 +13,9 @@ function getConnection() {
         },
         options: {
             database: process.env.DB_DATABASE,
-            encrypt: false, // Desactivar cifrado
+            encrypt: false, 
             trustServerCertificate: true,
-            port: parseInt(process.env.DB_PORT, 10) || 1433,  // Usa el puerto de .env o el predeterminado
+            port: parseInt(process.env.DB_PORT, 10) || 1433,  
         },
     };
 

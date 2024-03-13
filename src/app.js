@@ -24,8 +24,8 @@ app.use('/api/whatsapp', whatsappRoutes);
 
 // Bull Ui
 createBullBoard({ queues: [new BullMQAdapter(queueMQ)], serverAdapter });
-serverAdapter.setBasePath('/admin/queues');
-app.use('/admin/queues', serverAdapter.getRouter());
+serverAdapter.setBasePath('/jobs');
+app.use('/jobs', serverAdapter.getRouter());
 
 
 // Iniciar el servidor

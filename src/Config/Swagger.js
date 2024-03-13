@@ -10,7 +10,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000', // Asegúrate de usar el puerto correcto en el que se ejecuta tu servidor
+        url: 'http://localhost:3000', 
       },
     ],
   },

@@ -2,3 +2,4 @@
 /.wwebjs_cache
 /text.txt
 node_modules
+/src/app.js

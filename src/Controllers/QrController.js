@@ -46,6 +46,7 @@ const generarQR = async (req, res) => {
     client.on('ready', async () => {
         console.log('Cliente de WhatsApp listo y conectado');
         if (!responseSent) {
+            client.destroy();
             res.status(200)
                 .send('El código QR fue escaneado con éxito, la sesión está ahora activa.');
             responseSent = true;
@@ -55,12 +56,6 @@ const generarQR = async (req, res) => {
 
     client.on('authenticated', (session) => {
         console.log("LOGEADO CON EXITO ==>", session)
-        //sessionService.ActualizarSesionWhatsApp(idTelefono, session);
-        // fs.writeFile(dataPath, JSON.stringify(session), (err) => {
-        //     if (err) {
-        //         console.error(err);
-        //     }
-        // });
     });
 
     client.on('disconnected', async (reason) => {
@@ -74,10 +69,6 @@ const generarQR = async (req, res) => {
             responseSent = true;
         }
     });
-
-    // if (client) {
-    //     client.destroy();
-    // }
 
 };
 
