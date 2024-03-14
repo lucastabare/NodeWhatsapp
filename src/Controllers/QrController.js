@@ -5,6 +5,7 @@ const qrconsole = require('qrcode-terminal')
 const path = require('path');
 
 const generarQR = async (req, res) => {
+    console.log("aca estoy")
     const dataPath = path.resolve(__dirname, '../Sesiones');
 
     const idTelefono = req.params.idTelefono;

@@ -10,7 +10,7 @@ const swaggerDocument = require('./Config/Swagger');
 const whatsappRoutes = require('./Routes/WhatsappRoutes');
 
 const app = express();
-const port = 3000;
+const port = 8080;
 const queueMQ = new Queue('EnviarMensajesProgramadosQueue');
 
 // Middleware para analizar JSON entrante
