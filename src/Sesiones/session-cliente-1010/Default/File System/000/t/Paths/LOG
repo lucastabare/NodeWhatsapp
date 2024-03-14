@@ -1,0 +1,4 @@
+2024/03/14-14:40:16.347 4a98 Creating DB C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-1010\Default\File System\000\t\Paths since it was missing.
+2024/03/14-14:40:16.354 4a98 Reusing MANIFEST C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-1010\Default\File System\000\t\Paths/MANIFEST-000001
+2024/03/14-14:40:16.355 4a98 Recovering log #3
+2024/03/14-14:40:16.355 4a98 Reusing old log C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-1010\Default\File System\000\t\Paths/000003.log 

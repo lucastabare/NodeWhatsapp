@@ -41,6 +41,18 @@ router.get('/GenerarQR/:idTelefono', qrController.generarQR);
 
 router.post('/EnviarMensajes/:idTelefono', messageController.enviarMensajes);
 
+/**
+ * @swagger
+ * /api/whatsapp/EnviarMensajesTodos/:
+ *   post:
+ *     summary: Envia mensajes de WhatsApp de todos los telefono.
+ *     responses:
+ *       200:
+ *         description: Mensajes enviados con éxito.
+ */
+
+router.post('/EnviarMensajesTodos/', messageController.enviarMensajesAll);
+
 //API PARA ELIMINAR SAESION SEGUN TELEFONO
 /**
  * @swagger
@@ -63,7 +75,7 @@ router.delete('/EliminarSesion/:idTelefono', sesionController.eliminarSession);
 //API PARA ELIMNAR TODAS LAS SESIONES GUARDADAS
 /**
  * @swagger
- * /api/whatsapp/EliminarSesion/{idTelefono}:
+ * /api/whatsapp/EliminarSessiones/{idTelefono}:
  *   delete:
  *     summary: Elimina todas las sesiones guardadas.
  *     parameters:
@@ -78,5 +90,6 @@ router.delete('/EliminarSesion/:idTelefono', sesionController.eliminarSession);
  */
 
 router.delete('/EliminarSessiones/', sesionController.eliminarSessiones);
+
 
 module.exports = router;
