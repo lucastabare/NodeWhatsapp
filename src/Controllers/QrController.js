@@ -28,18 +28,24 @@ const generarQR = async (req, res) => {
         if (!responseSent) {
             qrconsole.generate(qr, { small: true });
             qrcode.toDataURL(qr, async (err, url) => {
-                if (err) {
-                    console.error('Error al generar el código QR', err);
-                    if (!responseSent) {
-                        res.status(500).send('Error al generar el código QR');
-                        responseSent = true;
-                    }
-                } else {
-                    if (!responseSent) {
-                        res.send(`< img src = "${url}" alt = "Código QR" > `);
-                        responseSent = true;
-                    }
+                if (!responseSent) {
+                    res.status(200)
+                    res.send(`< img src = "${url}" alt = "Código QR" > `);
+                    responseSent = true;
                 }
+                // if (err) {
+                //     console.error('Error al generar el código QR', err);
+                //     if (!responseSent) {
+                //         res.status(500).send('Error al generar el código QR');
+                //         responseSent = true;
+                //     }
+                // } else {
+                //     if (!responseSent) {
+                //         res.status(200)
+                //         res.send(`< img src = "${url}" alt = "Código QR" > `);
+                //         responseSent = true;
+                //     }
+                // }
             });
         }
     });
