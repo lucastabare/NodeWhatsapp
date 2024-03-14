@@ -75,15 +75,9 @@ router.delete('/EliminarSesion/:idTelefono', sesionController.eliminarSession);
 //API PARA ELIMNAR TODAS LAS SESIONES GUARDADAS
 /**
  * @swagger
- * /api/whatsapp/EliminarSessiones/{idTelefono}:
+ * /api/whatsapp/EliminarSessiones/:
  *   delete:
  *     summary: Elimina todas las sesiones guardadas.
- *     parameters:
- *       - in: path
- *         name: idTelefono
- *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Sesiones eliminadas con exito.
