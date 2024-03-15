@@ -15,7 +15,9 @@ const port = 3000;
 const queueMQ = new Queue('EnviarMensajesProgramadosQueue');
 
 //CORS
-app.use(cors());
+app.use(cors({
+  origin: '*' 
+}));
 
 // Middleware para analizar JSON entrante
 app.use(express.json());
