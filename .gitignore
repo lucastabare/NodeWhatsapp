@@ -5,4 +5,4 @@ node_modules
 /src/app.js
 node_modules/puppeteer/.local-chromium/
 node_modules/
-/Sesiones
+/src/Sesiones

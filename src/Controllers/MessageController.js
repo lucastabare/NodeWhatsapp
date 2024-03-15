@@ -35,13 +35,18 @@ const enviarMensajes = async (req, res) => {
             programarEnvioLotes(lotes.shift(), idTelefono, 1);
         }
 
-        let delayMinutos = 33;
-        for (let lote of lotes) {
-            programarEnvioLotes(lote, idTelefono, delayMinutos);
+        let delayMinutos = 30;
+
+        for (let [index, lote] of lotes.entries()) {
+
+            programarEnvioLotes(lote, idTelefono, delayMinutos, index + 1);
+
             delayMinutos += 30;
+
         }
 
         res.status(200).send('Mensajes programados para su envío');
+        
     } catch (error) {
         console.error('Error al enviar mensajes:', error);
         res.status(500).send('Error al enviar mensajes');
@@ -70,15 +75,19 @@ const enviarMensajesAll = async () => {
 
             // Divede los mensajes en lotes de 100
             const lotes = [];
+
             for (let i = 0; i < messages.length; i += 100) {
                 lotes.push(messages.slice(i, i + 100));
             }
 
             console.log(`Lotes preparados para el envío al teléfono ${idTelefono}`);
 
-            let delayMinutos = 0;
+            let delayMinutos = 1;
+
             for (let [index, lote] of lotes.entries()) {
+
                 programarEnvioLotes(lote, idTelefono, delayMinutos, index + 1);
+
                 delayMinutos += 30;
             }
         } catch (error) {
@@ -113,20 +122,28 @@ const enviarPrimerLote = async (lote, idTelefono) => {
     whatsappClient.once('ready', async () => {
         console.log('Cliente de WhatsApp listo y conectado.');
 
-        let acu = 1
+        let acu = 0
         for (const message of lote) {
-            const { numero, texto } = message;
             acu += 1
+
+            const { numero, texto } = message;
+
             let numeroLimpio = numero.replace(/[^\d]/g, "");
+
+            if (numeroLimpio.startsWith("54") && !numeroLimpio.startsWith("549")) {
+                numeroLimpio = "549" + numeroLimpio.substring(2);
+            }
+
             if (!numeroLimpio.startsWith("549")) {
                 numeroLimpio = "549" + numeroLimpio;
             }
+
             const numeroFormateado = `${numeroLimpio}@c.us`;
 
             try {
                 await whatsappClient.sendMessage(numeroFormateado, texto);
                 console.log("Voy enviando =====>", acu)
-                console.log(`Mensaje enviado a ${numero}`);
+                console.log(`Mensaje enviado a ${numeroFormateado}`);
                 await ActualizarMensajes(message.id, 4);
             } catch (err) {
                 console.error(`Error al enviar mensaje a ${numero}: ${err}`);
