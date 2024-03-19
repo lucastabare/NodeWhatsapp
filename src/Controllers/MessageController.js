@@ -46,7 +46,7 @@ const enviarMensajes = async (req, res) => {
         }
 
         res.status(200).send('Mensajes programados para su envío');
-        
+
     } catch (error) {
         console.error('Error al enviar mensajes:', error);
         res.status(500).send('Error al enviar mensajes');
@@ -130,12 +130,14 @@ const enviarPrimerLote = async (lote, idTelefono) => {
 
             let numeroLimpio = numero.replace(/[^\d]/g, "");
 
-            if (numeroLimpio.startsWith("54") && !numeroLimpio.startsWith("549")) {
-                numeroLimpio = "549" + numeroLimpio.substring(2);
-            }
+            if (idTelefono == 1010) {
+                if (numeroLimpio.startsWith("54") && !numeroLimpio.startsWith("549")) {
+                    numeroLimpio = "549" + numeroLimpio.substring(2);
+                }
 
-            if (!numeroLimpio.startsWith("549")) {
-                numeroLimpio = "549" + numeroLimpio;
+                if (!numeroLimpio.startsWith("549")) {
+                    numeroLimpio = "549" + numeroLimpio;
+                }
             }
 
             const numeroFormateado = `${numeroLimpio}@c.us`;
