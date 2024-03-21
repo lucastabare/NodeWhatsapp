@@ -1,6 +1,6 @@
-2024/03/18-14:49:30.571 42dc Reusing MANIFEST C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-8\Default\Local Storage\leveldb/MANIFEST-000001
-2024/03/18-14:49:30.572 42dc Recovering log #4
-2024/03/18-14:49:30.573 42dc Reusing old log C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-8\Default\Local Storage\leveldb/000004.log 
-2024/03/18-15:05:56.197 5954 Level-0 table #8: started
-2024/03/18-15:05:56.400 5954 Level-0 table #8: 13604 bytes OK
-2024/03/18-15:05:56.404 5954 Delete type=0 #4
+2024/03/21-09:17:28.065 6684 Reusing MANIFEST C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-8\Default\Local Storage\leveldb/MANIFEST-000001
+2024/03/21-09:17:28.086 6684 Recovering log #7
+2024/03/21-09:17:28.086 6684 Reusing old log C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-8\Default\Local Storage\leveldb/000007.log 
+2024/03/21-09:20:29.295 297c Level-0 table #11: started
+2024/03/21-09:20:29.299 297c Level-0 table #11: 12601 bytes OK
+2024/03/21-09:20:29.300 297c Delete type=0 #7

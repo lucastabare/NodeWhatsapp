@@ -1,3 +1,4 @@
-2024/03/18-21:27:44.686 8124 Reusing MANIFEST C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-1010\Default\File System\Origins/MANIFEST-000001
-2024/03/18-21:27:44.686 8124 Recovering log #3
-2024/03/18-21:27:44.686 8124 Reusing old log C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-1010\Default\File System\Origins/000003.log 
+2024/03/21-14:32:38.514 37f0 Creating DB C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-1010\Default\File System\Origins since it was missing.
+2024/03/21-14:32:38.529 37f0 Reusing MANIFEST C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-1010\Default\File System\Origins/MANIFEST-000001
+2024/03/21-14:32:38.530 37f0 Recovering log #3
+2024/03/21-14:32:38.530 37f0 Reusing old log C:\Users\lucas\OneDrive\Escritorio\NodeWhatsapp\src\Sesiones\session-cliente-1010\Default\File System\Origins/000003.log 
