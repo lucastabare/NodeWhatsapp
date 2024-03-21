@@ -12,12 +12,7 @@ const ObtenerMensajes = async (idTelefono) => {
                 return reject(err);
             }
 
-            const request = new Request(`SELECT numero, texto, id 
-                                        FROM mensaje 
-                                        WHERE idTelefono = @idTelefono 
-                                        AND FechaEnviado IS NULL 
-                                        AND IdEstado = 0
-                                        AND Encolado = 0`, (err) => {
+            const request = new Request(`SELECT numero, texto, id FROM mensaje WHERE idTelefono = @idTelefono AND FechaEnviado IS NULL AND IdEstado = 0`, (err) => {
                 if (err) {
                     console.error('SQL error:', err);
                     return reject(err);
@@ -82,40 +77,4 @@ const ActualizarMensajes = async (id, status) => {
     });
 };
 
-const ActualizarMensajesEncolado = async (id, status) => {
-    const connection = getConnection();
-
-    return new Promise((resolve, reject) => {
-        connection.on('connect', err => {
-            if (err) {
-                console.error('Error connecting for UPDATE:', err.message);
-                return reject(err);
-            }
-
-            const request = new Request(
-                'UPDATE mensaje SET Encolado = @status WHERE id = @id',
-                err => {
-                    if (err) {
-                        console.error('SQL error in UPDATE:', err);
-                        return reject(err);
-                    }
-                }
-            );
-
-            request.addParameter('status', TYPES.Int, status);
-            request.addParameter('id', TYPES.Int, id);
-
-            request.on('requestCompleted', () => {
-                connection.close();
-                console.log(`Encolado actualizado para el mensaje ${id}`);
-                resolve();
-            });
-
-            connection.execSql(request);
-        });
-
-        connection.connect();
-    });
-};
-
-module.exports = { ObtenerMensajes, ActualizarMensajes, ActualizarMensajesEncolado };
+module.exports = { ObtenerMensajes, ActualizarMensajes };

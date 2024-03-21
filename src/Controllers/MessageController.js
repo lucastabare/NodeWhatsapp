@@ -209,4 +209,4 @@ EnviarMensajesProgramadosQueue.on('completed', (job, result) => {
     console.log(`Lote de mensajes para el teléfono #${idTelefono} completado. IDs de mensajes: [${idsMensajes.join(", ")}]`);
 });
 
-module.exports = { enviarMensajes, EnviarMensajesProgramadosQueue, enviarMensajesAll, programarEnvioLotes };
+module.exports = { enviarMensajes, EnviarMensajesProgramadosQueue, enviarMensajesAll };

@@ -39,5 +39,3 @@ app.listen(port, () => {
   console.log(`Servidor Listo ===> corriendo en http://localhost:${port}`);
 });
 
-//Background Jobs
-require('../tasks/MessageScheduler.js');
