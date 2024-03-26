@@ -145,13 +145,13 @@ const enviarPrimerLote = async (lote, idTelefono) => {
             try {
                 await whatsappClient.sendMessage(numeroFormateado, texto);
                 console.log("Voy enviando =====>", acu)
-                console.log(`Mensaje enviado a ${numeroFormateado}`);
                 await ActualizarMensajes(message.id, 4);
+                console.log(`Mensaje enviado a ${numeroFormateado}`);
             } catch (err) {
                 console.error(`Error al enviar mensaje a ${numero}: ${err}`);
             }
 
-            await new Promise(resolve => setTimeout(resolve, 15000));
+            await new Promise(resolve => setTimeout(resolve, 5000));
         }
 
         console.log("============== TERMINO ====================")

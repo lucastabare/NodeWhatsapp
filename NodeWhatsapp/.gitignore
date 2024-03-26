@@ -1,0 +1,8 @@
+/.env
+/.wwebjs_cache
+/text.txt
+node_modules
+/src/app.js
+node_modules/puppeteer/.local-chromium/
+node_modules/
+/src/Sesiones
